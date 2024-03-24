@@ -1,0 +1,25 @@
+crear vista registro 
+
+se manda el form de registro a user controller -- devuelvo token -- agrego a db
+
+se almacena en la db el name, mail y token
+
+vista login -- usuario contraseña (token)
+
+se manda form a login controller, me fijo que los datos sean correctos cruzando con la tabla users
+
+probablemente no necesite el login controller y pueda agregar un metodo a user controller para auth
+
+una vez aceptado, muestro la pantalla panel con endpoints clients y users
+
+
+vista usuarios --- solo informa para ver, no se puede hacer crud
+
+vista clientes --- {    - tengo que crear vista para agregar clientes
+                        - tengo que poder editar (probablemente sea la misma vista que agregar)
+                        - listar clientes
+                        - eliminar clientes
+                    }   
+
+para crear clientes uso el client controller 
+
