@@ -6,7 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Hash;
-
+use App\Models\Client;
 
 class UserController extends Controller
 {
@@ -15,7 +15,8 @@ class UserController extends Controller
      */
     public function index()
     {
-        return view('register');
+        $users = User::paginate(5);
+        return view('users-panel', ['users' => $users]);
     }
 
     /**
@@ -47,7 +48,7 @@ class UserController extends Controller
         $user = new User();
         $user->name = $name;
         $user->email = $email;
-        $user->password = $token;
+        $user->password = Hash::make($token);
         $user->save();
         // Return registration view with token
         return view('register', compact('token'));

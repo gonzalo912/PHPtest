@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class LogInController extends Controller
 {
@@ -12,7 +13,7 @@ class LogInController extends Controller
      */
     public function index()
     {
-        //
+        return view('login');
     }
 
     /**
@@ -20,7 +21,23 @@ class LogInController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Validate login data
+        $request->validate([
+            'user' => 'required',
+            'password' => 'required',
+            ]);
+
+            // Attempt to authenticate user
+        $credentials = $request->only('user', 'password');
+
+            // Attempt to authenticate user using the 'name' column
+        if (Auth::attempt(['name' => $credentials['user'], 'password' => $credentials['password']])) {
+            cookie('username', $credentials['user']);
+            return redirect()->intended('/panel');
+        } else {
+            // Authentication failed
+            return redirect('/')->withErrors(['login_error' => 'Invalid email or password.']);
+        }
     }
 
     /**

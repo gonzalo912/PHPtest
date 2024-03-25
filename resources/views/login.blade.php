@@ -1,40 +1,29 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>LOGIN</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link href="{{ asset('css/app.css') }}" rel="stylesheet">
+@extends('layout')
 
-</head>
-<body>
-    @yield('content')
+@section('title', 'LOGIN')
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+@section('content')
     <div class="container">
-        <form class="loginform" method="GET">
+        <form class="loginform" method="POST" action="{{ route('login') }}">
+            @csrf
             <div class="mb-3">
-            <label for="user" class="form-label">Usuario</label>
-            <input type="text" class="form-control" id="user" aria-describedby="emailHelp">
+                <label for="user" class="form-label">Usuario</label>
+                <input type="text" class="form-control" id="user" name="user">
             </div>
             <div class="mb-3">
-            <label for="password" class="form-label">Contraseña</label>
-            <input type="password" class="form-control" id="password">
+                <label for="password" class="form-label">Contraseña</label>
+                <input type="password" class="form-control" id="password" name="password">
             </div>
             <button type="submit" class="btn btn-primary">Log in</button>
         </form>
         <a href="/register">No tenés cuenta? Registrate</a>
+        @if($errors->has('login_error'))
+            <div class="alert alert-danger">
+                {{ $errors->first('login_error') }}
+            </div>
+        @endif
     </div>
 
 
 
-
-
-</body>
-
-</html>
+@endsection

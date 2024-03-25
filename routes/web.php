@@ -4,18 +4,22 @@ use App\Http\Controllers\LogInController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\ClientController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\RegisterController;
 
 Route::get('/', [LogInController::class, 'index']);
-
-Route::get('/clients', [ClientController::class,'index']);
-
-Route::post('/clients/create', [ClientController::class,'create']);
-
-Route::post('/clients/edit', [ClientController::class,'update']);
-
-// Route to show the registration form
-Route::get('/register', [UserController::class, 'index']);
-
-// Route to handle form submission
+Route::post('/', [LogInController::class, 'store'])->name('login');
+Route::get('/register', function() {
+    return view('register');
+});
 Route::post('/register', [UserController::class, 'store'])->name('register');
+
+Route::middleware('auth')->group(function(){
+    Route::get('/panel', function(){
+        return view('panel-layout');
+    });
+    Route::get('/panel/users', [UserController::class,'index']);
+    Route::get('/panel/clients', [ClientController::class,'index'])->name('clients');
+    Route::post('panel/clients/create', [ClientController::class,'create']);
+    Route::get('panel/clients/{client}/edit', [ClientController::class, 'edit'])->name('clients.edit');
+    Route::put('panel/clients/{client}', [ClientController::class, 'update'])->name('clients.update');
+    Route::delete('panel/clients/{client}', [ClientController::class, 'destroy'])->name('clients.destroy');
+});
